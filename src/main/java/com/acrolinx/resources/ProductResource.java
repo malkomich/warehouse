@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -28,8 +29,9 @@ public class ProductResource {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = ProductInfo.class))
       }),
+      @ApiResponse(responseCode = "400", description = "Product ID is not valid"),
       @ApiResponse(responseCode = "404", description = "Product not found")})
-  public Response getProductById(@PathParam("productId") Integer productId) {
+  public Response getProductById(@PathParam("productId") @Min(1) Integer productId) {
     // TODO: Method stub
     return Response.ok().build();
   }
@@ -44,7 +46,8 @@ public class ProductResource {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = ProductInfo.class))
       }),
-      @ApiResponse(responseCode = "204", description = "No products found with given filters")})
+      @ApiResponse(responseCode = "204", description = "No products found with given filters"),
+      @ApiResponse(responseCode = "400", description = "No tags provided")})
   public Response filterProducts(@QueryParam("tags") List<String> tags) {
     // TODO: Method stub
     return Response.ok().build();

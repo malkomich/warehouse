@@ -1,17 +1,15 @@
-package com.acrolinx.api.response;
+package com.acrolinx.api;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@XmlRootElement(name = "FilterResult")
-public class FilterResult {
+@XmlRootElement(name = "Tag")
+public class Tag {
 
-  private List<ProductInfo> products;
+  private String name;
 }

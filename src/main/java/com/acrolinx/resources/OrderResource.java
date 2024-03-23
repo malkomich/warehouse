@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -47,8 +48,9 @@ public class OrderResource {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = OrderStatus.class))
       }),
+      @ApiResponse(responseCode = "400", description = "Order ID is not valid"),
       @ApiResponse(responseCode = "404", description = "Order not found")})
-  public Response getOrderStatus(@PathParam("orderId") Integer orderId) {
+  public Response getOrderStatus(@PathParam("orderId") @Min(1) Integer orderId) {
     // TODO: Method stub
     return Response.ok().build();
   }
@@ -63,7 +65,7 @@ public class OrderResource {
       }),
       @ApiResponse(responseCode = "400", description = "Invalid input"),
       @ApiResponse(responseCode = "404", description = "Order not found")})
-  public Response updateOrder(@PathParam("orderId") Integer orderId, @RequestBody @Valid OrderRequest order) {
+  public Response updateOrder(@PathParam("orderId") @Min(1) Integer orderId, @RequestBody @Valid OrderRequest order) {
     // TODO: Method stub
     return Response.ok().build();
   }
@@ -72,8 +74,9 @@ public class OrderResource {
   @Path("{orderId}")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successful operation"),
+      @ApiResponse(responseCode = "400", description = "Order ID is not valid"),
       @ApiResponse(responseCode = "404", description = "Order not found")})
-  public Response cancelOrder(@PathParam("orderId") Integer orderId) {
+  public Response cancelOrder(@PathParam("orderId") @Min(1) Integer orderId) {
     // TODO: Method stub
     return Response.ok().build();
   }

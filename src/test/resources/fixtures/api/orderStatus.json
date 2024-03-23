@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "orderItems": [
+    {
+      "productId": 1,
+      "quantity": 10
+    }
+  ],
+  "shipDate": "2019-02-03",
+  "status": "APPROVED"
+}
