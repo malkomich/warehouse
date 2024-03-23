@@ -1,7 +1,9 @@
 package com.acrolinx;
 
-import com.acrolinx.resources.OrderResource;
-import com.acrolinx.resources.ProductResource;
+import com.acrolinx.core.OrderService;
+import com.acrolinx.core.ProductService;
+import com.acrolinx.resources.order.OrderResource;
+import com.acrolinx.resources.product.ProductResource;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
@@ -39,8 +41,12 @@ public class WarehouseApplication extends Application<WarehouseConfiguration> {
     @Override
     public void run(final WarehouseConfiguration configuration,
                     final Environment environment) {
-        environment.jersey().register(new ProductResource());
-        environment.jersey().register(new OrderResource());
+
+        final ProductService productService = new ProductService();
+        final OrderService orderService = new OrderService();
+
+        environment.jersey().register(new ProductResource(productService, productService));
+        environment.jersey().register(new OrderResource(orderService));
 
         environment.jersey().register(new OpenApiResource()
             .configLocation("/openapi.yaml"));

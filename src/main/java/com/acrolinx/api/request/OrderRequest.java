@@ -1,6 +1,7 @@
 package com.acrolinx.api.request;
 
 import com.acrolinx.api.OrderItem;
+import jakarta.validation.Valid;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,5 +16,6 @@ import java.util.List;
 @XmlRootElement(name = "OrderRequest")
 public class OrderRequest implements Serializable {
 
+  @Valid
   private List<OrderItem> orderItems;
 }

@@ -1,6 +1,5 @@
 package com.acrolinx.api.response;
 
-import com.acrolinx.api.Tag;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class ProductInfo {
 
   private String name;
 
-  private List<Tag> tags;
+  private List<String> tags;
 
   private Integer quantity;
 }

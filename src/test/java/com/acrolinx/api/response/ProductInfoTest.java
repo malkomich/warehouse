@@ -1,6 +1,5 @@
 package com.acrolinx.api.response;
 
-import com.acrolinx.api.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.jackson.Jackson;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +14,7 @@ public class ProductInfoTest {
   @Test
   void seralizesToJSON() throws Exception {
 
-    var tags = Arrays.asList(new Tag("sofa"), new Tag("livingRoom"), new Tag("grey"));
+    var tags = Arrays.asList("sofa", "livingRoom", "grey");
     var productInfo = new ProductInfo(1, "Fabric chaise lounge grey sofa", tags, 10);
 
     final String expected = MAPPER.writeValueAsString(

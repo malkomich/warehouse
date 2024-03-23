@@ -25,7 +25,7 @@ public class OrderStatus {
 
   private Status status;
 
-  enum Status {
+  public enum Status {
     PLACED,
     APPROVED,
     DELIVERED
