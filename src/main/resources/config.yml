@@ -5,6 +5,11 @@ logging:
     com.acrolinx: DEBUG
 
 mongodb:
-#  uri: mongodb://admin:password@localhost:27017
-  uri: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@localhost:27017
+  uri: mongodb://admin:password@localhost:27017
+#  uri: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@localhost:27017
   database: warehouse
+
+redis:
+  host: localhost
+#  host: ${REDIS_HOST}
+  port: 6379

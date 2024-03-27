@@ -1,5 +1,6 @@
 package com.acrolinx;
 
+import com.acrolinx.api.response.ProductInfo;
 import com.acrolinx.config.MongoFactory;
 import com.acrolinx.core.OrderService;
 import com.acrolinx.core.ProductService;
@@ -13,6 +14,8 @@ import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -52,6 +55,10 @@ public class WarehouseApplication extends Application<WarehouseConfiguration> {
             .getClient()
             .getDatabase(configuration.getMongoConfiguration().getDatabase());
 
+        var redisConfig = configuration.getRedisConfiguration();
+        var redisClient = RedisClient.create("redis://" + redisConfig.getHost() + ":" + redisConfig.getPort());
+        var redisConnection = redisClient.connect();
+
         var orderRepository = new OrderMongoRepository(
             mongoDatabase.getCollection(OrderMongoRepository.COLLECTION_NAME, OrderEntity.class));
         var productRepository = new ProductMongoRepository(
@@ -59,7 +66,7 @@ public class WarehouseApplication extends Application<WarehouseConfiguration> {
         var productService = new ProductService(productRepository);
         var orderService = new OrderService(orderRepository);
 
-        environment.jersey().register(new ProductResource(productService, productService));
+        environment.jersey().register(new ProductResource(productService, productService, redisConnection));
         environment.jersey().register(new OrderResource(orderService));
     }
 }

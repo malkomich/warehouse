@@ -3,6 +3,8 @@ package com.acrolinx.resources.product;
 import com.acrolinx.api.response.ProductInfo;
 import com.acrolinx.core.FilterProductsUseCase;
 import com.acrolinx.core.GetProductUseCase;
+import io.dropwizard.jersey.caching.CacheControl;
+import io.lettuce.core.api.StatefulRedisConnection;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +25,8 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Path("product")
@@ -34,6 +38,8 @@ public class ProductResource {
 
   private final FilterProductsUseCase filterProductsUseCase;
 
+  private final StatefulRedisConnection<String, String> redisConnection;
+
   @OPTIONS
   public Response options() {
     return Response.ok()
@@ -44,6 +50,7 @@ public class ProductResource {
   @GET
   @Path("{productId}")
   @Produces(MediaType.APPLICATION_JSON)
+  @CacheControl(maxAge = 1, maxAgeUnit = TimeUnit.HOURS)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = ProductInfo.class))
@@ -53,9 +60,19 @@ public class ProductResource {
   public Response getProductById(
       @PathParam("productId") @Size(min = 24, max = 24, message = "Product id format is invalid") String productId) {
 
+    var syncCommands = redisConnection.sync();
+    var cachedProductInfo = syncCommands.get(productId);
+    if (Objects.nonNull(cachedProductInfo)) {
+      return Response.ok(ProductInfoCacheSerializer.deserialize(cachedProductInfo)).build();
+    }
+
     return getProductUseCase.getProductById(productId)
         .map(ProductMapper::toProductInfo)
-        .map(product -> Response.ok(product).build())
+        .map(product -> {
+          syncCommands.setex(productId, 3600, ProductInfoCacheSerializer.serialize(product));
+
+          return Response.ok(product).build();
+        })
         .orElse(Response.status(Response.Status.NOT_FOUND).build());
   }
 

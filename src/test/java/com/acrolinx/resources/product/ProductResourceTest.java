@@ -6,6 +6,8 @@ import com.acrolinx.core.GetProductUseCase;
 import com.acrolinx.core.domain.Product;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +27,9 @@ class ProductResourceTest {
 
   private static final GetProductUseCase getProductUseCase = mock(GetProductUseCase.class);
   private static final FilterProductsUseCase filterProductsUseCase = mock(FilterProductsUseCase.class);
+  private static final StatefulRedisConnection statefulRedisConnection = mock(StatefulRedisConnection.class);
   private static final ResourceExtension RESOURCE = ResourceExtension.builder()
-      .addResource(new ProductResource(getProductUseCase, filterProductsUseCase))
+      .addResource(new ProductResource(getProductUseCase, filterProductsUseCase, statefulRedisConnection))
       .build();
 
   @AfterEach
@@ -72,6 +75,25 @@ class ProductResourceTest {
 
     Assertions.assertEquals(200, invocation.invoke().getStatus());
     Assertions.assertNotNull(invocation.invoke(ProductInfo.class));
+  }
+
+  @Test
+  @DisplayName("Verifies the product is successful found in cache")
+  void productFoundInCache() {
+
+    var redisCommands = Mockito.mock(RedisCommands.class);
+
+    Mockito.when(statefulRedisConnection.sync()).thenReturn(redisCommands);
+    Mockito.when(redisCommands.get("123abc123abc123abc123abc"))
+        .thenReturn("{\"id\":\"123abc123abc123abc123abc\",\"name\":\"Furniture\",\"tags\":[],\"quantity\":10}");
+
+    var invocation = RESOURCE.target("/product/123abc123abc123abc123abc")
+        .request()
+        .buildGet();
+
+    Assertions.assertEquals(200, invocation.invoke().getStatus());
+    Mockito.verifyNoInteractions(getProductUseCase);
+    Assertions.assertEquals("Furniture", invocation.invoke(ProductInfo.class).getName());
   }
 
   @Test

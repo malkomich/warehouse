@@ -11,7 +11,7 @@ Getting started
 Docker
 ---
 
-You can run in a container both Warehouse service and MongoDB instance. Just run `docker-compose up` in the root of
+You can run in a container both Redis and MongoDB instance. Just run `docker-compose up` in the root of
 this project to get them up & running.
 
 Health Check

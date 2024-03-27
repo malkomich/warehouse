@@ -27,6 +27,7 @@
         <assertj.version>3.25.3</assertj.version>
         <mongodb-driver-sync.version>5.0.0</mongodb-driver-sync.version>
         <testcontainers.mongodb.version>1.19.7</testcontainers.mongodb.version>
+        <lettuce-core.version>6.3.2.RELEASE</lettuce-core.version>
     </properties>
 
     <dependencyManagement>
@@ -83,6 +84,11 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>${mongodb-driver-sync.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>${lettuce-core.version}</version>
         </dependency>
 
         <!-- Testing dependencies -->

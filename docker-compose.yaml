@@ -10,3 +10,8 @@ services:
     ports:
       - 27017:27017
     env_file: .env
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
