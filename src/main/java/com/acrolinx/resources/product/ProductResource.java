@@ -10,12 +10,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.OPTIONS;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +36,13 @@ public class ProductResource {
 
   private final FilterProductsUseCase filterProductsUseCase;
 
+  @OPTIONS
+  public Response options() {
+    return Response.ok()
+        .header(HttpHeaders.ALLOW, "OPTIONS,GET")
+        .build();
+  }
+
   @GET
   @Path("{productId}")
   @Produces(MediaType.APPLICATION_JSON)
@@ -41,7 +52,8 @@ public class ProductResource {
       }),
       @ApiResponse(responseCode = "400", description = "Product ID is not valid"),
       @ApiResponse(responseCode = "404", description = "Product not found")})
-  public Response getProductById(@PathParam("productId") @Min(1) Integer productId) {
+  public Response getProductById(
+      @PathParam("productId") @Size(min = 24, max = 24, message = "Product id format is invalid") String productId) {
 
     return getProductUseCase.getProductById(productId)
         .map(ProductMapper::toProductInfo)

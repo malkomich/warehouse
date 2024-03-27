@@ -13,7 +13,7 @@ import java.util.List;
 @XmlRootElement(name = "ProductInfo")
 public class ProductInfo {
 
-  private Integer id;
+  private String id;
 
   private String name;
 

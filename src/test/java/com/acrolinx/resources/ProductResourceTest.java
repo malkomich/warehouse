@@ -31,7 +31,7 @@ public class ProductResourceTest {
       .build();
 
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     Mockito.reset(getProductUseCase);
     Mockito.reset(filterProductsUseCase);
   }
@@ -40,9 +40,9 @@ public class ProductResourceTest {
   @DisplayName("Verifies there is no product with the given ID")
   public void productNotFound() {
 
-    Mockito.when(getProductUseCase.getProductById(999)).thenReturn(Optional.empty());
+    Mockito.when(getProductUseCase.getProductById("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
-    var response = RESOURCE.target("/product/999")
+    var response = RESOURCE.target("/product/123abc123abc123abc123abc")
         .request()
         .get();
 
@@ -53,7 +53,7 @@ public class ProductResourceTest {
   @DisplayName("Fail when the product ID given is invalid")
   public void productIdInvalid() {
 
-    var response = RESOURCE.target("/product/-1")
+    var response = RESOURCE.target("/product/1")
         .request()
         .get();
 
@@ -65,9 +65,9 @@ public class ProductResourceTest {
   public void productFound() {
 
     var product = Mockito.mock(Product.class);
-    Mockito.when(getProductUseCase.getProductById(1)).thenReturn(Optional.of(product));
+    Mockito.when(getProductUseCase.getProductById("123abc123abc123abc123abc")).thenReturn(Optional.of(product));
 
-    var invocation = RESOURCE.target("/product/1")
+    var invocation = RESOURCE.target("/product/123abc123abc123abc123abc")
         .request()
         .buildGet();
 

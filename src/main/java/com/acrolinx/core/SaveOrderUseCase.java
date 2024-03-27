@@ -6,11 +6,13 @@ import java.util.Optional;
 
 public interface SaveOrderUseCase {
 
-  Order createOrder(Order order);
+  Optional<String> createOrder(Order order);
 
-  Optional<Order> updateOrder(Integer orderId, Order order);
+  Optional<Order> updateOrder(String orderId, Order order);
 
-  Optional<Order> deleteOrder(Integer orderId);
+  Optional<Order> partialUpdateOrder(String orderId, Order order);
 
-  Optional<Order> getOrder(Integer orderId);
+  Optional<Order> deleteOrder(String orderId);
+
+  Optional<Order> getOrder(String orderId);
 }

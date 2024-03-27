@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface GetProductUseCase {
 
-  Optional<Product> getProductById(final Integer productId);
+  Optional<Product> getProductById(final String productId);
 }

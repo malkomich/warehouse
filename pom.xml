@@ -25,6 +25,8 @@
         <junit.version>5.10.2</junit.version>
         <mockito.version>5.11.0</mockito.version>
         <assertj.version>3.25.3</assertj.version>
+        <mongodb-driver-sync.version>5.0.0</mongodb-driver-sync.version>
+        <testcontainers.mongodb.version>1.19.7</testcontainers.mongodb.version>
     </properties>
 
     <dependencyManagement>
@@ -77,6 +79,11 @@
             <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
             <version>${swagger.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>${mongodb-driver-sync.version}</version>
+        </dependency>
 
         <!-- Testing dependencies -->
         <dependency>
@@ -101,6 +108,12 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <version>${testcontainers.mongodb.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

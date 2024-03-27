@@ -1,7 +1,7 @@
 {
   "orderItems": [
     {
-      "productId": 1,
+      "productId": "123abc123abc123abc123abc",
       "quantity": 10
     }
   ]

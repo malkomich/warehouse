@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class OrderItem {
 
-  private Integer productId;
+  private String productId;
 
   private Integer quantity;
 }

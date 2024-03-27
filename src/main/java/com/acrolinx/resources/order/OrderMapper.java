@@ -1,14 +1,21 @@
 package com.acrolinx.resources.order;
 
 import com.acrolinx.api.OrderItem;
-import com.acrolinx.api.request.OrderRequest;
+import com.acrolinx.api.Status;
+import com.acrolinx.api.request.NewOrderRequest;
+import com.acrolinx.api.request.OrderPartialUpdateRequest;
+import com.acrolinx.api.request.OrderUpdateRequest;
 import com.acrolinx.api.response.OrderStatus;
 import com.acrolinx.core.domain.Order;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderMapper {
+
+  private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   static OrderStatus toOrderStatus(Order order) {
     return new OrderStatus(
@@ -18,23 +25,50 @@ public class OrderMapper {
         mapStatus(order.getStatus()));
   }
 
-  static Order toOrder(OrderRequest orderRequest) {
+  static Order toOrder(NewOrderRequest newOrderRequest) {
     return Order.builder()
-        .orderItems(mapOrderItemsToDomain(orderRequest.getOrderItems()))
+        .orderItems(mapOrderItemsToDomain(newOrderRequest.getOrderItems()))
         .build();
   }
 
-  private static OrderStatus.Status mapStatus(Order.Status status) {
+  static Order toOrder(OrderUpdateRequest orderUpdateRequest) {
+    return Order.builder()
+        .shipDate(LocalDate.parse(orderUpdateRequest.getShipDate(), DATETIME_FORMATTER))
+        .status(mapStatus(orderUpdateRequest.getStatus()))
+        .build();
+  }
+
+  static Order toOrder(OrderPartialUpdateRequest orderPartialUpdateRequest) {
+    return Order.builder()
+        .shipDate(LocalDate.parse(orderPartialUpdateRequest.getShipDate(), DATETIME_FORMATTER))
+        .status(mapStatus(orderPartialUpdateRequest.getStatus()))
+        .build();
+  }
+
+  private static Status mapStatus(Order.Status status) {
 
     if (Order.Status.APPROVED.equals(status)) {
-      return OrderStatus.Status.APPROVED;
+      return Status.APPROVED;
     }
 
     if (Order.Status.DELIVERED.equals(status)) {
-      return OrderStatus.Status.DELIVERED;
+      return Status.DELIVERED;
     }
 
-    return OrderStatus.Status.PLACED;
+    return Status.PLACED;
+  }
+
+  private static Order.Status mapStatus(Status status) {
+
+    if (Status.APPROVED.equals(status)) {
+      return Order.Status.APPROVED;
+    }
+
+    if (Status.DELIVERED.equals(status)) {
+      return Order.Status.DELIVERED;
+    }
+
+    return Order.Status.PLACED;
   }
 
   private static List<OrderItem> mapOrderItemsToAPI(List<com.acrolinx.core.domain.OrderItem> orderItems) {

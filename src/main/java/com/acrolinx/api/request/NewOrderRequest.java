@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @XmlRootElement(name = "OrderRequest")
-public class OrderRequest implements Serializable {
+public class NewOrderRequest implements Serializable {
 
   @Valid
   private List<OrderItem> orderItems;

@@ -16,7 +16,7 @@ public class FilterResultTest {
   void seralizesToJSON() throws Exception {
 
     var tags = Arrays.asList("sofa", "livingRoom", "grey");
-    var productInfo = new ProductInfo(1, "Fabric chaise lounge grey sofa", tags, 10);
+    var productInfo = new ProductInfo("123abc123abc123abc123abc", "Fabric chaise lounge grey sofa", tags, 10);
     var filterResult = new FilterResult(Collections.singletonList(productInfo));
 
     final String expected = MAPPER.writeValueAsString(

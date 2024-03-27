@@ -12,7 +12,7 @@ public class OrderItemTest {
   @Test
   void seralizesToJSON() throws Exception {
 
-    var orderItem = new OrderItem(1, 10);
+    var orderItem = new OrderItem("123abc123abc123abc123abc", 10);
 
     final String expected = MAPPER.writeValueAsString(
         MAPPER.readValue(getClass().getResource("/fixtures/api/orderItem.json"), OrderItem.class));

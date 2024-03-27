@@ -1,6 +1,7 @@
 package com.acrolinx.api.response;
 
 import com.acrolinx.api.OrderItem;
+import com.acrolinx.api.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @XmlRootElement(name = "OrderStatus")
 public class OrderStatus {
 
-  private Integer id;
+  private String id;
 
   private List<OrderItem> orderItems;
 
@@ -24,10 +25,4 @@ public class OrderStatus {
   private LocalDate shipDate;
 
   private Status status;
-
-  public enum Status {
-    PLACED,
-    APPROVED,
-    DELIVERED
-  }
 }

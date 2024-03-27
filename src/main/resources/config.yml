@@ -1,0 +1,9 @@
+---
+logging:
+  level: INFO
+  loggers:
+    com.acrolinx: DEBUG
+
+mongodb:
+  uri: mongodb://admin:password@localhost:27017
+  database: warehouse

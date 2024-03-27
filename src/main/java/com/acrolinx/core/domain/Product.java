@@ -1,13 +1,15 @@
 package com.acrolinx.core.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
+@Builder
 public class Product {
 
-  private Integer id;
+  private String id;
 
   private String name;
 

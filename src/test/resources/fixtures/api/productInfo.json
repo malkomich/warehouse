@@ -1,16 +1,10 @@
 {
-  "id": 1,
+  "id": "123abc123abc123abc123abc",
   "name": "Fabric chaise lounge grey sofa",
   "tags": [
-    {
-      "name": "sofa"
-    },
-    {
-      "name": "livingRoom"
-    },
-    {
-      "name": "grey"
-    }
+    "sofa",
+    "livingRoom",
+    "grey"
   ],
   "quantity": "10"
 }
