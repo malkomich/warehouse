@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <mainClass>com.acrolinx.Warehouse WidgetApplication</mainClass>
+        <mainClass>com.acrolinx.WarehouseApplication</mainClass>
         <!-- Dependency versions -->
         <dropwizard.version>4.0.7</dropwizard.version>
         <dropwizard-testing.version>4.0.7</dropwizard-testing.version>
@@ -253,6 +253,13 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>com/acrolinx/WarehouseApplication.class</exclude>
+                        <exclude>com/acrolinx/WarehouseConfiguration.class</exclude>
+                        <exclude>**/config/*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

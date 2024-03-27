@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-public class NewOrderRequestTest {
+class NewOrderRequestTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 

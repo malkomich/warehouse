@@ -1,13 +1,11 @@
 package com.acrolinx.core;
 
-import com.acrolinx.core.domain.Product;
 import com.acrolinx.db.ProductRepository;
 import com.acrolinx.db.entity.ProductEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.Collections;
@@ -15,7 +13,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 
-public class ProductServiceTest {
+class ProductServiceTest {
 
   private static final ProductRepository productRepository = mock(ProductRepository.class);
 
@@ -28,7 +26,7 @@ public class ProductServiceTest {
 
   @Test
   @DisplayName("Verify an empty result when the product is not found")
-  public void productNotFound() {
+  void productNotFound() {
 
     Mockito.when(productRepository.getProduct("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
@@ -39,7 +37,7 @@ public class ProductServiceTest {
 
   @Test
   @DisplayName("Verify the product is successfully retrieved")
-  public void productRetrieved() {
+  void productRetrieved() {
 
     var productEntity = Mockito.mock(ProductEntity.class);
 
@@ -53,7 +51,7 @@ public class ProductServiceTest {
 
   @Test
   @DisplayName("Verify the product filter is returning a product")
-  public void productFilterEmpty() {
+  void productFilterEmpty() {
 
     Mockito.when(productRepository.getProductsByTags(Collections.singletonList("tag")))
         .thenReturn(Collections.emptyList());
@@ -65,7 +63,7 @@ public class ProductServiceTest {
 
   @Test
   @DisplayName("Verify the product filter is returning a product")
-  public void productFilter() {
+  void productFilter() {
 
     var productEntity = Mockito.mock(ProductEntity.class);
 

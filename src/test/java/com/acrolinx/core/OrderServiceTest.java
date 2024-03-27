@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 
-public class OrderServiceTest {
+class OrderServiceTest {
 
   private static final OrderRepository orderRepository = mock(OrderRepository.class);
 
@@ -28,7 +28,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is not found")
-  public void orderNotFound() {
+  void orderNotFound() {
 
     Mockito.when(orderRepository.getOrder("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
@@ -39,7 +39,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order cannot be serialized with a wrong status")
-  public void orderInvalidStatus() {
+  void orderInvalidStatus() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -53,7 +53,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is successfully found")
-  public void orderFound() {
+  void orderFound() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -67,7 +67,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order id is not retrieved when the creation is not acknowledged")
-  public void orderCreateIsNotAcknowledge() {
+  void orderCreateIsNotAcknowledge() {
 
     var order = Mockito.mock(Order.class);
 
@@ -81,7 +81,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order created status is always set as PLACED")
-  public void orderCreatedStatusIsPlaced() {
+  void orderCreatedStatusIsPlaced() {
 
     var order = Mockito.mock(Order.class);
     var orderEntityCaptor = ArgumentCaptor.forClass(OrderEntity.class);
@@ -97,7 +97,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is successfully created")
-  public void orderCreated() {
+  void orderCreated() {
 
     var order = Mockito.mock(Order.class);
 
@@ -111,7 +111,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("The order to be partial updated does not exist")
-  public void orderPartialUpdateNotExist() {
+  void orderPartialUpdateNotExist() {
 
     var order = Mockito.mock(Order.class);
 
@@ -124,7 +124,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Get an empty response when the id for the order to be partial updated is missing")
-  public void orderPartialUpdateWithoutOrderId() {
+  void orderPartialUpdateWithoutOrderId() {
 
     var order = Mockito.mock(Order.class);
 
@@ -135,7 +135,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Get an empty response when the order to be partial updated is missing")
-  public void orderPartialUpdateEmpty() {
+  void orderPartialUpdateEmpty() {
 
     var result = orderService.partialUpdateOrder("123abc123abc123abc123abc", null);
 
@@ -144,7 +144,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is successfully partial updated")
-  public void orderPartialUpdated() {
+  void orderPartialUpdated() {
 
     var order = Mockito.mock(Order.class);
     var orderEntity = Mockito.mock(OrderEntity.class);
@@ -160,7 +160,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("The order to be updated does not exist")
-  public void orderUpdateNotExist() {
+  void orderUpdateNotExist() {
 
     var order = Mockito.mock(Order.class);
 
@@ -173,7 +173,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Get an empty response when the id for the order to be updated is missing")
-  public void orderUpdateWithoutOrderId() {
+  void orderUpdateWithoutOrderId() {
 
     var order = Mockito.mock(Order.class);
 
@@ -184,7 +184,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Get an empty response when the order to be updated is missing")
-  public void orderUpdateEmpty() {
+  void orderUpdateEmpty() {
 
     var result = orderService.updateOrder("123abc123abc123abc123abc", null);
 
@@ -193,7 +193,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is successfully updated")
-  public void orderUpdated() {
+  void orderUpdated() {
 
     var order = Mockito.mock(Order.class);
     var orderEntity = Mockito.mock(OrderEntity.class);
@@ -209,7 +209,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("The order to be deleted does not exist")
-  public void orderDeleteNotExist() {
+  void orderDeleteNotExist() {
 
     Mockito.when(orderRepository.delete("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
@@ -220,7 +220,7 @@ public class OrderServiceTest {
 
   @Test
   @DisplayName("Verify the order is successfully deleted")
-  public void orderDeleted() {
+  void orderDeleted() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 

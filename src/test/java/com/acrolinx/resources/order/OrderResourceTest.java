@@ -1,4 +1,4 @@
-package com.acrolinx.resources;
+package com.acrolinx.resources.order;
 
 import com.acrolinx.api.OrderItem;
 import com.acrolinx.api.Status;
@@ -7,7 +7,6 @@ import com.acrolinx.api.request.OrderUpdateRequest;
 import com.acrolinx.api.response.OrderStatus;
 import com.acrolinx.core.SaveOrderUseCase;
 import com.acrolinx.core.domain.Order;
-import com.acrolinx.resources.order.OrderResource;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
 import jakarta.ws.rs.client.Entity;
@@ -27,7 +26,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
-public class OrderResourceTest {
+class OrderResourceTest {
 
   private static final SaveOrderUseCase saveOrderUseCase = mock(SaveOrderUseCase.class);
   private static final ResourceExtension RESOURCE = ResourceExtension.builder()
@@ -41,7 +40,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Fail when the order contains invalid product ids")
-  public void orderWithInvalidProducts() {
+  void orderWithInvalidProducts() {
 
     var orderItem = new OrderItem("1", 10);
     var orderRequest = new NewOrderRequest(Collections.singletonList(orderItem));
@@ -56,7 +55,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Fail when an order item has invalid quantity")
-  public void orderWithInvalidQuantity() {
+  void orderWithInvalidQuantity() {
 
     var orderItem = new OrderItem("123abc123abc123abc123abc", 0);
     var orderRequest = new NewOrderRequest(Collections.singletonList(orderItem));
@@ -71,7 +70,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies an order is successfully executed")
-  public void orderSuccessful() {
+  void orderSuccessful() {
 
     var orderItem = new OrderItem("123abc123abc123abc123abc", 10);
     var orderRequest = new NewOrderRequest(Collections.singletonList(orderItem));
@@ -93,7 +92,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Fail when the order ID given is invalid")
-  public void orderIdInvalid() {
+  void orderIdInvalid() {
 
     var response = RESOURCE.target("/order/1")
         .request()
@@ -104,7 +103,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies there is no order with the given ID")
-  public void orderNotFound() {
+  void orderNotFound() {
 
     Mockito.when(saveOrderUseCase.getOrder("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
@@ -117,7 +116,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies the order status is successfully retrieved")
-  public void orderFound() {
+  void orderFound() {
 
     var order = Mockito.mock(Order.class);
 
@@ -133,7 +132,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies the order to be updated does not exist")
-  public void orderNotFoundForUpdate() {
+  void orderNotFoundForUpdate() {
 
     var orderItems = Collections.singletonList(new OrderItem("123abc123abc123abc123abc", 1));
     var orderUpdateRequest = new OrderUpdateRequest("2024-03-27", orderItems, Status.DELIVERED);
@@ -154,7 +153,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies an order update is successfully executed")
-  public void orderUpdateSuccessful() {
+  void orderUpdateSuccessful() {
 
     var orderItems = Collections.singletonList(new OrderItem("123abc123abc123abc123abc", 1));
     var orderUpdateRequest = new OrderUpdateRequest("2024-03-27", orderItems, Status.DELIVERED);
@@ -180,7 +179,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Fail when the order to be deleted does not exist")
-  public void deleteOrderIdInvalid() {
+  void deleteOrderIdInvalid() {
 
     var response = RESOURCE.target("/order/1")
         .request()
@@ -191,7 +190,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies the order to be deleted does not exist")
-  public void deleteOrderNotFound() {
+  void deleteOrderNotFound() {
 
     Mockito.when(saveOrderUseCase.deleteOrder("123abc123abc123abc123abc")).thenReturn(Optional.empty());
 
@@ -204,7 +203,7 @@ public class OrderResourceTest {
 
   @Test
   @DisplayName("Verifies the order has been successfully deleted")
-  public void orderDeleted() {
+  void orderDeleted() {
 
     var order = Mockito.mock(Order.class);
     Mockito.when(saveOrderUseCase.deleteOrder("123abc123abc123abc123abc")).thenReturn(Optional.of(order));

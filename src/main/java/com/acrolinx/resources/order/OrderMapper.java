@@ -17,6 +17,8 @@ public class OrderMapper {
 
   private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+  private OrderMapper() {}
+
   static OrderStatus toOrderStatus(Order order) {
     return new OrderStatus(
         order.getId(),
@@ -35,7 +37,17 @@ public class OrderMapper {
     return Order.builder()
         .shipDate(LocalDate.parse(orderUpdateRequest.getShipDate(), DATETIME_FORMATTER))
         .status(mapStatus(orderUpdateRequest.getStatus()))
+        .orderItems(mapOrderItems(orderUpdateRequest.getOrderItems()))
         .build();
+  }
+
+  private static List<com.acrolinx.core.domain.OrderItem> mapOrderItems(List<OrderItem> orderItems) {
+    return orderItems.stream()
+        .map(orderItem -> com.acrolinx.core.domain.OrderItem.builder()
+            .productId(orderItem.getProductId())
+            .quantity(orderItem.getQuantity())
+            .build())
+        .collect(Collectors.toList());
   }
 
   static Order toOrder(OrderPartialUpdateRequest orderPartialUpdateRequest) {

@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 
 import java.util.Collections;
 
-public class OrderMongoRepositoryTest {
+class OrderMongoRepositoryTest {
 
   private static TestDbContainer testDbContainer;
   private static OrderMongoRepository orderRepository;
@@ -37,7 +37,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is not found in DB")
-  public void orderNotFound() {
+  void orderNotFound() {
 
     var result = orderRepository.getOrder("999999999999999999999999");
 
@@ -46,7 +46,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Fail when DB is down")
-  public void databaseDown() {
+  void databaseDown() {
 
     testDbContainer.stop();
 
@@ -56,7 +56,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is successfully retrieved")
-  public void getOrder() {
+  void getOrder() {
 
     var result = orderRepository.getOrder("617d673dd59fd40c61b1b370");
 
@@ -66,7 +66,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is successfully created")
-  public void createOrder() {
+  void createOrder() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
     var orderItemEntity = Mockito.mock(OrderItemEntity.class);
@@ -90,7 +90,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order cannot be replaced if it does not exist")
-  public void replaceOrderNotFound() {
+  void replaceOrderNotFound() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -104,7 +104,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is successfully replaced")
-  public void replaceOrder() {
+  void replaceOrder() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -121,7 +121,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order cannot be updated if it does not exist")
-  public void updateOrderNotFound() {
+  void updateOrderNotFound() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -135,7 +135,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is successfully updated")
-  public void updateOrder() {
+  void updateOrder() {
 
     var orderEntity = Mockito.mock(OrderEntity.class);
 
@@ -150,7 +150,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order cannot be deleted if does not exist")
-  public void deleteOrderNotFound() {
+  void deleteOrderNotFound() {
 
     var result = orderRepository.delete("999999999999999999999999");
 
@@ -159,7 +159,7 @@ public class OrderMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the order is successfully deleted")
-  public void deleteOrder() {
+  void deleteOrder() {
 
     var result = orderRepository.delete("617d673dd59fd40c61b1b370");
 

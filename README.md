@@ -4,8 +4,15 @@ Getting started
 ---
 
 1. Run `mvn clean install` to build your application
-1. Start application with `java -jar target/warehouse-1.0.0-SNAPSHOT.jar server target/config.yml`
-1. To check that your application is running locally enter url `http://localhost:8080`
+2. Run `docker-compose up -d` to initialize MongoDB server
+3. Start application with `java -jar target/warehouse-1.0.0-SNAPSHOT.jar server target/config.yml`
+4. To check that your application is running locally enter url `http://localhost:8080`
+
+Docker
+---
+
+You can run in a container both Warehouse service and MongoDB instance. Just run `docker-compose up` in the root of
+this project to get them up & running.
 
 Health Check
 ---
@@ -27,3 +34,22 @@ Use Cases
 - Shop wants to completely update an ongoing order **[UPDATE]** _#order_
 - Warehouse updates the order status when it is shipped, and shop update it when it is delivered **[PATCH]** _#order_
 - Shop wants to filter the available products by different tags **[GET]** _#product_
+
+
+Sonar code quality check
+---
+
+Run the following command to start a local Sonar server (http://localhost:9001):
+
+```
+docker-compose -f sonar.yml up
+```
+
+Run a Sonar analysis:
+
+```
+mvn clean verify sonar:sonar -Dsonar.projectKey=warehouse
+                             -Dsonar.projectName='warehouse' 
+                             -Dsonar.host.url=http://localhost:9001
+                             -Dsonar.token=<GENERATED_TOKEN>
+```

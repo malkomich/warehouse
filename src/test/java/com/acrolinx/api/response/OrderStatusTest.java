@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
-public class OrderStatusTest {
+class OrderStatusTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
   private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;

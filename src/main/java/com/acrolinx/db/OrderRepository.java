@@ -1,6 +1,5 @@
 package com.acrolinx.db;
 
-import com.acrolinx.core.domain.Order;
 import com.acrolinx.db.entity.OrderEntity;
 
 import java.util.Optional;

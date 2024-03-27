@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-public class ProductMongoRepositoryTest {
+class ProductMongoRepositoryTest {
 
   private static TestDbContainer testDbContainer;
   private static ProductMongoRepository productRepository;
@@ -34,7 +34,7 @@ public class ProductMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the product is not found in DB")
-  public void productNotFound() {
+  void productNotFound() {
 
     var result = productRepository.getProduct("999999999999999999999999");
 
@@ -43,7 +43,7 @@ public class ProductMongoRepositoryTest {
 
   @Test
   @DisplayName("Fail when DB is down")
-  public void databaseDown() {
+  void databaseDown() {
 
     testDbContainer.stop();
 
@@ -53,7 +53,7 @@ public class ProductMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the product is successfully retrieved")
-  public void getProduct() {
+  void getProduct() {
 
     var result = productRepository.getProduct("617d673dd59fd40c61b1b371");
 
@@ -63,7 +63,7 @@ public class ProductMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify there are no products with given tags")
-  public void filterProductsNotFound() {
+  void filterProductsNotFound() {
 
     var result = productRepository.getProductsByTags(Collections.singletonList("red"));
 
@@ -72,7 +72,7 @@ public class ProductMongoRepositoryTest {
 
   @Test
   @DisplayName("Verify the products are successfully filtered")
-  public void filterProducts() {
+  void filterProducts() {
 
     var result = productRepository.getProductsByTags(Collections.singletonList("grey"));
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-public class ProductInfoTest {
+class ProductInfoTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 

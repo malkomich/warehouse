@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class FilterResultTest {
+class FilterResultTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 

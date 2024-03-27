@@ -6,7 +6,7 @@ import io.dropwizard.jackson.Jackson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class OrderPartialUpdateRequestTest {
+class OrderPartialUpdateRequestTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 

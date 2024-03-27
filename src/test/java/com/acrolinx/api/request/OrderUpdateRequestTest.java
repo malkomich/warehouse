@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-public class OrderUpdateRequestTest {
+class OrderUpdateRequestTest {
 
   private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
