@@ -36,6 +36,7 @@ class ProductResourceTest {
   void tearDown() {
     Mockito.reset(getProductUseCase);
     Mockito.reset(filterProductsUseCase);
+    Mockito.reset(statefulRedisConnection);
   }
 
   @Test

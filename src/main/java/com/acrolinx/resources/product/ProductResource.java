@@ -5,6 +5,7 @@ import com.acrolinx.core.FilterProductsUseCase;
 import com.acrolinx.core.GetProductUseCase;
 import io.dropwizard.jersey.caching.CacheControl;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,12 +24,14 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Log
 @Path("product")
 @Tag(name = "product")
 @RequiredArgsConstructor
@@ -60,8 +63,8 @@ public class ProductResource {
   public Response getProductById(
       @PathParam("productId") @Size(min = 24, max = 24, message = "Product id format is invalid") String productId) {
 
-    var syncCommands = redisConnection.sync();
-    var cachedProductInfo = syncCommands.get(productId);
+    var cachedProductInfo = getCachedProductInfo(productId);
+
     if (Objects.nonNull(cachedProductInfo)) {
       return Response.ok(ProductInfoCacheSerializer.deserialize(cachedProductInfo)).build();
     }
@@ -69,7 +72,7 @@ public class ProductResource {
     return getProductUseCase.getProductById(productId)
         .map(ProductMapper::toProductInfo)
         .map(product -> {
-          syncCommands.setex(productId, 3600, ProductInfoCacheSerializer.serialize(product));
+          saveInCache(productId, product);
 
           return Response.ok(product).build();
         })
@@ -98,5 +101,29 @@ public class ProductResource {
     return results.isEmpty()
         ? Response.noContent().build()
         : Response.ok(results).build();
+  }
+
+  private void saveInCache(String productId, ProductInfo product) {
+
+    var syncCommands = redisConnection.sync();
+
+    if (Objects.nonNull(syncCommands)) {
+      syncCommands.setex(productId, 3600, ProductInfoCacheSerializer.serialize(product));
+    } else {
+      log.warning("Cache server is not initialized");
+    }
+  }
+
+  private String getCachedProductInfo(String productId) {
+
+    var syncCommands = redisConnection.sync();
+
+    if (Objects.nonNull(syncCommands)) {
+      return syncCommands.get(productId);
+    } else {
+      log.warning("Cache server is not initialized");
+
+      return null;
+    }
   }
 }

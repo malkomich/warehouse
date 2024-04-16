@@ -21,7 +21,7 @@ class OrderMongoRepositoryTest {
   @BeforeEach
   void setUp() {
     testDbContainer = new TestDbContainer();
-    testDbContainer.start();
+    testDbContainer.start(); // Please make sure Docker is up & running to run these integration tests.
 
     var collection = testDbContainer
         .getDatabase()
